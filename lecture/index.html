@@ -11,17 +11,26 @@
             class LikeButton extends React.Component {
                 constructor(props) {
                     super(props);
+                    //state : 상태 , 데이터
+                    this.state() = {
+                        liked: false,
+                    };
                 }
 
                 render() {
                     return e(
-                        'button', null , 'Like'
-                    ); // <button>Like</button>
+                        'button', 
+                        {onClick: () => {this.setState({ liked : true }) }, 
+                        type:'submit' } , 
+                        this.state.liked === true ? 'Liked' : 'Like'
+                    ); 
+                    // <button onClick=" () => { consoloe.log('clicked') "} type="submit">Like</button>
+                    // ${'button'}.text{'Liked'};
                 }
             }
         </script>
         <script>
-            ReactDOM.render(e(LikeButton), document.querySelector('#root'));
+            ReactDOM.render(e(LikeButton), document.querySelector("#root"));
         </script>
     </body>
 </html>
