@@ -2,17 +2,20 @@
     <head>
         <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <!-- 이 코드는 babel 문법만 바꿔준다 -->
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     </head>
     <body>
+        <!-- React에서 ES6문법 지원 -->
+        <!-- JSX문법을 실행시켜 주기 위해서 Babel(실험적인 문법)d을 실행시켜준다. -->
+        <!-- 대신 최신 메서드나 최신 객체는 babel polyfill를 추가해야 한다.-->
+        <!-- state란 변할 수 있는 값이나 변히게 될 여지 -->
         <div id="root"></div> <!-- 결과 : <div id="root"><button>Like</button></div> -->
+        <!-- babel 이란 ES6문법을 ES5이하의 문법으로 변형시켜 주는 것 -->
         <script type="text/babel">
-            const e = React.createElemet;
-
             class LikeButton extends React.Component {
                 constructor(props) {
                     super(props);
-                    //state : 상태 , 데이터
                     this.state() = {
                         liked: false,
                     };
