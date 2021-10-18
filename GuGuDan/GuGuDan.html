@@ -20,17 +20,21 @@
                 };
             }
 
+            // 컨텐츠 ()는 우선순위 구할때 적용
             render() {
-                return (
-                    <div>
+                return ((
+                    // 이전 리엑트에서는 위에 root 처럼 component도 div 태그로 하나 감싸주어야 한다.
+                    // 하지만 개편 되면서 div 태그 보단 React.Fragment를 써주게 바뀌었디. 
+                    // babel 1에서는 <>를 지원을 안 해줘서 React.Fragment을 써주어야 한다.
+                    <React.Fragment>
                         <div>{this.state.first} 곱하기 {this.state.second}는?</div>
                         <form>
                             <input type="number" value={this.state.value} onChange={(e) => this.setState({ value: e.target.value})} />
                             <button>입력</button>
                         <div>{this.state.result}</div>
                         </form>
-                    </div>
-                );
+                    </React.Fragment>
+                ));
             }
         }
     </script>
