@@ -15,38 +15,40 @@
     <div id="root"></div>
     <script type="text/babel">
         // 함수 컴포넌트에서도 state와 ref를 쓸 수 있게 해주었다 그게 바로 Hooks이다.
+        // React 에서는 html class를 인식을 못하므로 className을 써주고 for을 htmlFor로 써준다
         const GuGudan = () => {
             const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9 ));
             const [second, setsecond] = React.useState(Math.ceil(Math.random() * 9 ));
-            const [value, setvalue] = React.useState('');
-            const [Result, setResult] = React.useState('');
+            const [value, setValue] = React.useState('');
+            const [result, setresult] = React.useState('');
             const InputRef = React.useRef(null);
-
+          
             const onSubmitForm = (e) => {
                 e.preventDefault();
-          if ( parseInt(this.state.value) === this.state.first * this.state.second
+          if ( parseInt(value) === first * second
           ) {
-            setResult('정딥: ' + value);
+            setresult('정답: ' + value);
             setFirst(Math.ceil(Math.random() * 9 ));
             setsecond(Math.ceil(Math.random() * 9 ));
             setValue('');
-            input.current.focus();
+            InputRef.current.focus();
           } else {
-            setResult('땡');
+            setresult('땡');
             setValue('');
-            input.current.focus();
+            InputRef.current.focus();
           }
             }
 
-            const onchangeInput = () => {
-                setValue(e.target.value);
+            const onChangeInput = (e) => {
+              setValue(e.target.value);
             };
             
+            console.log('렌더링');
             return (
             <React.Fragment>
                 <div>{first} 곱하기 {second} 는?</div>
-                <form>
-                    <input value={value} />
+                <form onSubmit={onSubmitForm}>
+                    <input ref={InputRef} onChange={onChangeInput} value={value} />
                     <div id="result">{result}</div>
                 </form>
             </React.Fragment>
