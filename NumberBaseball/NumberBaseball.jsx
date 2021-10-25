@@ -67,7 +67,7 @@ class NumberBaseball extends Component {
                         value : '',
                     };
                 });
-                this.inputRef.currend.focus();
+                this.inputRef.current.focus();
             }
         }
     };
