@@ -1,14 +1,4 @@
-import React , {useEffect, useRef, useState} from 'react';
-
-// 클래스 경우 -> constructor -> render -> componentDidMount 
-// (setState/props 바뀔때) -> shouldComponetUpdate(true) -> componentDidUpdate
-// 부모가 나를 없앴을 때 -> componentWillUnmount -> 소멸
-
-/*
-    라이프 사이클이란 ? 
-    컴포넌트가 클라이언트에서 불려와서 렌더링이 되는데 
-    컴포넌트가 DOM에 붙는 순간이 있는데 그 순간에 특정한 동작을 해줄 수 있다.
-*/
+import React , {useEffect, useRef, useState, memo} from 'react';
 
 const rspCoords = {
     바위 : '0',
@@ -28,7 +18,35 @@ const computerChoice = (imgCoord) => {
     })[0]; // 두 번째 인수 배열에 넣은 값( 여기선 imgCoord)들이 바뀔 때 useEffect가 실행된다.
 };
 
-const RSP = () => {
+//                     result , imgCoord , score
+// componentDidMount
+// componentDidUpdate
+// componentWillUnmount 
+
+/*
+    class 에서는 한번에 다 처리가 가능하다
+    componentDidMount() {
+        this.setState ({
+            imgCoord : 3,
+            score : 1,
+            result : 2,
+        })
+    }
+*/
+
+/*
+    Hooks에선 나뉘어서 처리를 해야한다.
+    useEffect(() => {
+        setImgCoord();
+        setScore();
+    }), [imgCoord, score]
+
+    useEffect(() => {
+        setResult();
+    }), [result]
+*/
+
+const RSP = memo(() => {
     const [ result , setResult ] = useState('');
     const [ imgCoord , setImgCoord ] = useState(rspCoords.바위);
     const [ score , setScore ] = useState(0);
@@ -42,6 +60,7 @@ const RSP = () => {
             clearInterval(Interval.current);
         }
     }, [imgCoord]); //배열에다 값을 안 넣으면 componentDidMount 값을 넣으면 componentDidUpdate
+    // 배열엔 꼭 useEffect를 다시 실행할 값만 넣어야 된다.
 
     const changeHand = () => {
         if (imgCoord === rspCoords.바위){
@@ -84,7 +103,7 @@ const RSP = () => {
             <div>현재 {score}점</div>
         </>
     );
-}
+});
 
     // 컴포넌트가 첫 렌더링 된 후. 여기에 비동기 요청을 많이 한다.
     // componentDidMount() {
