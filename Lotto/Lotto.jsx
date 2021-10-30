@@ -69,7 +69,7 @@ class Lotto extends Component {
                 </div>
                 <div>보너스</div>
                 {bouns && <Ball number={bouns} />}
-                <button onClick={redo ? this.onClickRedo : () => {}}>한번 더!</button>
+                { redo && <button onClick={this.onClickRedo}>한번 더!</button> }
             </>
         );
     }
