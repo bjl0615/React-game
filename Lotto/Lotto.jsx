@@ -31,10 +31,11 @@ class Lotto extends Component {
             bouns : null,
             redo : false,
         });
-        this.timeouts = [];
     };
-
-    componentDidMount() {
+    timeouts = [];
+    
+    runTimeouts = () => {
+        console.log('runTimeouts');
         const { winNumbers } = this.state; 
         for (let i = 0; i < this.state.winNumbers.length - 1; i++ ){
             this.timeouts[i] = setTimeout(() => {
@@ -53,8 +54,20 @@ class Lotto extends Component {
         }, 7000);
     }
 
+    componentDidMount() {
+        this.runTimeouts();
+        console.log("로또 숫자를 생성합니다.")
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log('didUpdate');
+        if(this.state.winBalls.length === 0) {
+            this.runTimeouts();
+        }
+    }
+
     componentWillUnmount() {
-        this.timeouts.forEach((t) => {
+        this.timeouts.forEach((v) => {
             clearTimeout(v);
         })
     }
