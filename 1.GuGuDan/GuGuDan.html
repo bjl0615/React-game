@@ -1,0 +1,99 @@
+<html>
+  <head>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class GuGuDan extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            first: Math.ceil(Math.random() * 9),
+            second: Math.ceil(Math.random() * 9),
+            value: "",
+            result: "",
+          };
+        }
+        onSubmit = (e) => {
+          e.preventDefault();
+          if (
+            parseInt(this.state.value) ===
+            this.state.first * this.state.second
+          ) {
+            this.setState((prevState) => {
+                return {
+                    result: "정답 : " + prevState.value,
+                    first: Math.ceil(Math.random() * 9),
+                    second: Math.ceil(Math.random() * 9),
+                    value: "",
+                };
+                input.focus();
+            });
+
+            //이렇게 setState를 여러번 쓸 수 있는데 이러면 비동기때문에 불편하다.
+            // this.setState((prevState) => {
+            //     return {
+            //         value: prevState.value + 1,
+            //     }
+            // });
+
+            // this.setState({
+            //     value: this.state.value + 1,
+            // });
+
+            // this.setState({
+            //     value: this.state.value + 1,
+            // });
+
+
+          } else {
+            this.setState({
+              result: "땡!",
+              value: "",
+            });
+            input.focus();
+          }
+        };
+        onChange = (e) => {
+          this.setState({ value: e.target.value });
+        };
+
+        // 컨텐츠 ()는 우선순위 구할때 적용
+                render() {
+                    // 이전 리엑트에서는 위에 root 처럼 component도 div 태그로 하나 감싸주어야 한다.
+                    // 하지만 개편 되면서 div 태그 보단 React.Fragment를 써주게 바뀌었디. 
+                    // babel 1에서는 <>를 지원을 안 해줘서 React.Fragment을 써주어야 한다.
+                    console.log('렌더링');
+                    return (
+                        <React.Fragment>
+                        <div>
+                            {this.state.first} 곱하기 {this.state.second}는 ?
+                        </div>
+                        <form onSubmit={this.onSubmit}>
+                            <input
+                            type="number"
+                            value={this.state.value}
+                            onChange={this.onChange}
+                            />
+                            <button>입력!</button>
+                        </form>
+                        <div>{this.state.result}</div>
+                        </React.Fragment>
+          );
+        }
+      }
+    </script>
+    <script type="text/babel">
+        ReactDOM.render(<GuGuDan />, document.querySelector("#root"));
+    </script>
+</body>
+</html>
