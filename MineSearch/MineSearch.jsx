@@ -10,23 +10,46 @@ export const CODE = {
     QUESTION_MINE : -4,
     FLAG_MINE : -5,
     CLICKED_MINE : -6,
-    OPEND: 0, //0 이상입면 다 opend
-    
+    OPENED : 0, //0 이상입면 다 opend
+
 }
 
 export const TableContext = createContext({
-    tableData : [
-        [-1, -1, -1, -1 ,-1 ,-1, -1],
-        [-7, -1, -1, -1 ,-1 ,-1, -1],
-        [-1, -7, -1, -7 ,-7 ,-1, -1],
-        [],
-        []
-    ],
+    tableData: [],
+    halted: true,
     dispatch: () => {},
+  });
 
-});
+  const plantMine = (row, cell, mine) => {
+    console.log(row, cell, mine);
+    const candidate = Array(row * cell).fill().map((arr, i) => {
+      return i;
+    });
+    const shuffle = [];
+    while (candidate.length > row * cell - mine) {
+      const chosen = candidate.splice(Math.floor(Math.random() * candidate.length), 1)[0];
+      shuffle.push(chosen);
+    }
+    const data = [];
+    for (let i = 0; i < row; i++) {
+      const rowData = [];
+      data.push(rowData);
+      for (let j = 0; j < cell; j++) {
+        rowData.push(CODE.NORMAL);
+      }
+    }
+  
+    for (let k = 0; k < shuffle.length; k++) {
+      const ver = Math.floor(shuffle[k] / cell);
+      const hor = shuffle[k] % cell;
+      data[ver][hor] = CODE.MINE;
+    }
+  
+    console.log(data);
+    return data;
+  };
 
-const initalState = {
+const initialState = {
     tableData : [],
 }
 
@@ -45,14 +68,13 @@ const reducer = (state, action) => {
     } 
 };
 
-const MinSearch = () => { 
-    const [state, dispatch] = useReducer(reducer , initalState);
-
-    const value = useMemo( () => ({ tableData : state.tableData, dispatch}) , [state.tableData]);
-
+const MineSearch = () => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+  
+    const value = useMemo(() => ({ tableData:  state.tableData , dispatch }), [state.tableData]);
     return (
-        <TableContext.Provider value={{ value }}>
-            <Form dispatch = {dispatch} />
+        <TableContext.Provider value={ value }>
+            <Form />
             <div>{state.timer}</div>
             <Table />
             <div>{state.result}</div>
@@ -60,6 +82,6 @@ const MinSearch = () => {
     )
 };
 
-export default MinSearch;
+export default MineSearch;
 
 
