@@ -11,6 +11,7 @@ export const CODE = {
     FLAG_MINE : -5,
     CLICKED_MINE : -6,
     OPEND: 0, //0 이상입면 다 opend
+    
 }
 
 export const TableContext = createContext({
